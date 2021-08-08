@@ -1,0 +1,21 @@
+{
+  "name": "Sampark-Suchi",
+  "version": "1.0.0",
+  "description": "A full stack mern application to manage contacts.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sauravchaudharysc/Sampark-Suchi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sauravchaudharysc/Sampark-Suchi/issues"
+  },
+  "homepage": "https://github.com/sauravchaudharysc/Sampark-Suchi#readme"
+}
