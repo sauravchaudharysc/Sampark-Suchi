@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 const {check,validationResult} = require('express-validator');
 
@@ -42,7 +44,25 @@ async(req,res)=>{
 
         user.password = await bcrypt.hash(password,salt);
         await user.save();
-        res.send(user);
+        
+        const payload = {
+            user: {
+                //With user id i can acess all the contacts the logged in user has
+                id: user.id
+            }
+        }
+
+        jwt.sign(payload,
+            config.get('jwtSecret'),
+            {
+             expiresIn: 36000
+            },
+         (err,token)=>{
+            if(err) throw err;
+            res.json({token});
+         }
+        );
+        //res.send(user);
     }catch(err){
         console.log(err.message);
         return res.status(400).json({msg:'Server Error'});
