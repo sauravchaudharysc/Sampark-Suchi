@@ -3,18 +3,27 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-
+const auth = require('../middleware/auth');
 const {check,validationResult} = require('express-validator');
 
 const User = require('../models/User');
 
 //Validate the logged in user
 //@route          GET api/auth 
-//@desc           Get logged in user
+//@desc           Get current logged in user
 //@access         Private
-router.get('/',(req,res)=>{
-    res.send('Get Logged in User');
+router.get('/',auth,async (req,res)=>{
+    //get the user from database
+    try {
+        //If we send the correct token and we are logged in this request object will have user object and in user we will get the correct user 
+        const user = await User.findById(req.user.id).select('-password');
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({msg:'Server Error'});
+    }
 });
+
 
 //Authenticating the user
 //@route          POST api/auth 
